@@ -183,6 +183,16 @@
       />
     </section>
 
+    <section x-data="{ presets: { default: false, media_center: false, audio: false, archiving: true } }">
+      <.input
+        field={f[:download_comments]}
+        type="toggle"
+        label="Download Comments"
+        help="Downloads video comments to a JSON file alongside media file. Can be slow for videos with many comments"
+        x-init="$watch('selectedPreset', p => p && (enabled = presets[p]))"
+      />
+    </section>
+
     <h3 class="mt-10 text-2xl text-black dark:text-white">
       Release Format Options
     </h3>

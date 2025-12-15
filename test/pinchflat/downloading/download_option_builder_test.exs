@@ -251,6 +251,35 @@ defmodule Pinchflat.Downloading.DownloadOptionBuilderTest do
     end
   end
 
+  describe "build/1 when testing comments options" do
+    test "includes :write_comments option when specified", %{media_item: media_item} do
+      media_item = update_media_profile_attribute(media_item, %{download_comments: true})
+
+      assert {:ok, res} = DownloadOptionBuilder.build(media_item)
+
+      assert :write_comments in res
+    end
+
+    test "saves comments to comments subdirectory when specified", %{media_item: media_item} do
+      media_item = update_media_profile_attribute(media_item, %{download_comments: true})
+
+      assert {:ok, res} = DownloadOptionBuilder.build(media_item)
+
+      output_opt = Enum.find(res, fn opt -> match?({:output, "infojson:" <> _}, opt) end)
+      assert output_opt
+      {:output, "infojson:" <> path} = output_opt
+      assert path =~ "/comments/"
+    end
+
+    test "doesn't include :write_comments option when not specified", %{media_item: media_item} do
+      media_item = update_media_profile_attribute(media_item, %{download_comments: false})
+
+      assert {:ok, res} = DownloadOptionBuilder.build(media_item)
+
+      refute :write_comments in res
+    end
+  end
+
   describe "build/1 when testing media quality and format options" do
     # There are more tests inside QualityOptionBuilderTest
     # This is essenitally just testing that we implement that module correctly
