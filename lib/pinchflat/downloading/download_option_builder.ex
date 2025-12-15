@@ -24,6 +24,7 @@ defmodule Pinchflat.Downloading.DownloadOptionBuilder do
         subtitle_options(media_profile) ++
         thumbnail_options(media_item_with_preloads) ++
         metadata_options(media_profile) ++
+        comments_options(media_item_with_preloads) ++
         quality_options(media_profile) ++
         sponsorblock_options(media_profile) ++
         output_options(media_item_with_preloads) ++
@@ -141,6 +142,18 @@ defmodule Pinchflat.Downloading.DownloadOptionBuilder do
     end)
   end
 
+  defp comments_options(media_item_with_preloads) do
+    media_profile = media_item_with_preloads.source.media_profile
+
+    if media_profile.download_comments do
+      comments_save_location = determine_comments_location(media_item_with_preloads)
+
+      [:write_comments, output: "infojson:#{comments_save_location}"]
+    else
+      []
+    end
+  end
+
   defp quality_options(media_profile) do
     QualityOptionBuilder.build(media_profile)
   end
@@ -223,6 +236,18 @@ defmodule Pinchflat.Downloading.DownloadOptionBuilder do
     |> String.split(~r{\.}, include_captures: true)
     |> List.insert_at(-3, "-thumb")
     |> Enum.join()
+    |> build_output_path(media_item_with_preloads)
+  end
+
+  # Places comments in a "comments" subdirectory alongside the video
+  defp determine_comments_location(media_item_with_preloads) do
+    output_path_template = Sources.output_path_template(media_item_with_preloads.source)
+
+    output_path_template
+    |> Path.dirname()
+    |> Path.join("comments")
+    |> Path.join(Path.basename(output_path_template))
+    |> String.replace(~r{\.\{\{\s*ext\s*\}\}$}, ".%(ext)s")
     |> build_output_path(media_item_with_preloads)
   end
 

@@ -21,6 +21,7 @@ defmodule Pinchflat.Profiles.MediaProfile do
     download_source_images
     download_metadata
     embed_metadata
+    download_comments
     download_nfo
     sponsorblock_behaviour
     sponsorblock_categories
@@ -53,6 +54,7 @@ defmodule Pinchflat.Profiles.MediaProfile do
 
     field :download_metadata, :boolean, default: false
     field :embed_metadata, :boolean, default: false
+    field :download_comments, :boolean, default: false
 
     field :download_nfo, :boolean, default: false
     field :sponsorblock_behaviour, Ecto.Enum, values: [:disabled, :mark, :remove], default: :disabled

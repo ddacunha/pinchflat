@@ -39,6 +39,7 @@ defmodule Pinchflat.Media.MediaItem do
     :subtitle_filepaths,
     :thumbnail_filepath,
     :metadata_filepath,
+    :comments_filepath,
     :nfo_filepath,
     :last_error,
     # These are user or system controlled fields
@@ -83,6 +84,7 @@ defmodule Pinchflat.Media.MediaItem do
     field :media_size_bytes, :integer
     field :thumbnail_filepath, :string
     field :metadata_filepath, :string
+    field :comments_filepath, :string
     field :nfo_filepath, :string
     # This is an array of [iso-2 language, filepath] pairs. Probably could
     # be an associated record, but I don't see the benefit right now.
@@ -122,7 +124,7 @@ defmodule Pinchflat.Media.MediaItem do
 
   @doc false
   def filepath_attributes do
-    ~w(media_filepath thumbnail_filepath metadata_filepath subtitle_filepaths nfo_filepath)a
+    ~w(media_filepath thumbnail_filepath metadata_filepath comments_filepath subtitle_filepaths nfo_filepath)a
   end
 
   @doc false
