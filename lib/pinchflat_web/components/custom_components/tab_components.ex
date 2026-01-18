@@ -41,7 +41,7 @@ defmodule PinchflatWeb.CustomComponents.TabComponents do
           {render_slot(@tab_append)}
         </div>
       </header>
-      <div class="mt-4 min-h-60">
+      <div class="mt-4 min-h-60 overflow-x-auto">
         <div :for={tab <- @tab} x-show={"openTab === '#{tab.id}'"} class="font-medium leading-relaxed">
           {render_slot(tab)}
         </div>

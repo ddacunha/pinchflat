@@ -23,7 +23,7 @@ defmodule PinchflatWeb.Sources.MediaItemTableLive do
       <header class="flex justify-between items-center mb-4">
         <span class="flex items-center">
           <.icon_button icon_name="hero-arrow-path" class="h-10 w-10" phx-click="reload_page" tooltip="Refresh" />
-          <span class="ml-2">
+          <span class="mx-2">
             Showing <.localized_number number={length(@records)} /> of <.localized_number number={@filtered_record_count} />
           </span>
         </span>
